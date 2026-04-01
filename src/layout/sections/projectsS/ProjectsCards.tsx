@@ -1,61 +1,83 @@
-import { useState } from 'react';
+// ProjectsCards.tsx
+import { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Icon } from '../../../components/Icon';
-import { Title } from '../../../components/Title';
-import { TitleH2 } from '../../../components/TitleH2';
+import { SectionTitle } from '../../../components';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
+import { mq } from '../../../styles/mediaQueries';
+import { theme } from '../../../styles/theme';
 import { projects } from './projectsData';
 import { ProjectItem } from './ProjectsItem';
-import { theme } from '../../../styles/theme';
-
+import { splitIntoColumns } from './splitIntoColumns';
 
 const categories = ['all', 'magazines', 'package', 'branding', 'web', 'logo'];
 
 export const ProjectsCards = () => {
     const [active, setActive] = useState('all');
+    const isMobile = useMediaQuery(mq.mobileAndDown);
+    const isTablet = useMediaQuery(mq.tabletOnly);
 
-    const filtered =
-        active === 'all'
-            ? projects
-            : projects.filter((p) => p.category === active);
+    // Создаем массив с учетом видимости карточек, но сохраняем исходный порядок
+    const orderedWithVisibility = useMemo(() => {
+        return projects.map((project) => ({
+            ...project,
+            isVisible: active === 'all' || project.category === active,
+        }));
+    }, [active]);
+
+    // Для расчета колонок используем исходный порядок, но фильтруем видимые элементы
+    const visibleProjects = useMemo(() => {
+        return orderedWithVisibility.filter((p) => p.isVisible);
+    }, [orderedWithVisibility]);
+
+    const columnCount = isMobile ? 1 : isTablet ? 2 : 3;
+    const effectiveColumnCount = Math.min(columnCount, projects.length);
+
+    // Разбиваем на колонки ТОЛЬКО видимые проекты, но в том же порядке, как они идут в projects
+    const columns = useMemo(() => {
+        const visibleOnly = visibleProjects.map((p) => p);
+        return splitIntoColumns(visibleOnly, effectiveColumnCount);
+    }, [visibleProjects, effectiveColumnCount]);
 
     return (
         <CardsWrapper>
-            <SmallTitle>
-                <Icon name="wave" width={52} height={4} color="#111" />
-                <Title
-                    margin="0px 0px 0px 30px"
-                    fontWeight={400}
-                    fontSize="18px"
-                    lineHeight="126%"
-                    letterSpacing="0.2em"
-                    color="#4C6FFF"
-                    textTransform="uppercase"
-                >
-                    portfolio
-                </Title>
-            </SmallTitle>
-
-            <TitleH2 fontSize="52px" lineHeight="150%">
-                Latest Works
-            </TitleH2>
+            <SectionTitle
+                subtitle="Portfolio"
+                title="Lastet Works"
+                align="center"
+            />
 
             <Filters>
                 {categories.map((cat) => (
-                    <button
+                    <FilterButton
                         key={cat}
                         className={active === cat ? 'active' : ''}
                         onClick={() => setActive(cat)}
                     >
                         {cat}
-                    </button>
+                    </FilterButton>
                 ))}
             </Filters>
 
-            <Grid>
-                {filtered.map((item) => (
-                    <ProjectItem key={item.id} image={item.image} />
+            <MasonryRoot $tracks={columns.length}>
+                {columns.map((columnItems, colIndex) => (
+                    <MasonryColumn key={colIndex}>
+                        {columnItems.map((item) => {
+                            // Находим индекс в оригинальном массиве projects для задержки анимации
+                            const originalIndex = projects.findIndex(
+                                (p) => p.id === item.id
+                            );
+                            return (
+                                <ProjectItem
+                                    key={item.id}
+                                    image={item.image}
+                                    image2x={item.image2x}
+                                    delay={originalIndex * 0.08}
+                                />
+                            );
+                        })}
+                    </MasonryColumn>
                 ))}
-            </Grid>
+            </MasonryRoot>
 
             <LoadMoreButton>VIEW ALL WORKS</LoadMoreButton>
         </CardsWrapper>
@@ -67,101 +89,113 @@ const CardsWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1146px;
+    max-width: 1200px;
     margin: 0 auto;
-`;
+    padding: 0 20px;
 
-const SmallTitle = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        padding: 0 16px;
+    }
 `;
 
 const Filters = styled.div`
-    margin-top: 30px;
+    margin: 50px 0 40px;
     display: flex;
-    gap: 20px;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
 
-    button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-        color: #888;
-        transition: 0.3s;
-        text-transform: capitalize;
-        padding: 5px 0;
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        margin: 40px 0 32px;
     }
 
-    button.active {
-        color: #111;
-        font-weight: 600;
-    }
-
-    button:hover {
-        color: #111;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 12px;
+        margin: 30px 0;
     }
 `;
 
-const Grid = styled.div`
-    column-count: 3;
-    column-gap: 24px;
-    margin-top: 60px;
+const FilterButton = styled.button`
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.6s ease;
+    text-transform: capitalize;
+    padding: 8px 20px;
+    border-radius: 30px;
+    color: #64748b;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    &.active {
+        color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+    }
+
+    &:hover {
+        color: #3b82f6;
+        background: rgba(59, 130, 246, 0.05);
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        padding: 6px 16px;
+        font-size: 13px;
+    }
+`;
+
+const MasonryRoot = styled.div<{ $tracks: number }>`
+    display: grid;
+    grid-template-columns: repeat(
+        ${(p) => Math.max(1, p.$tracks)},
+        minmax(0, 1fr)
+    );
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 60px;
+    box-sizing: border-box;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        gap: 20px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 22px;
+        margin-bottom: 40px;
+    }
+`;
+
+const MasonryColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
     width: 100%;
 
-    & > div {
-        margin-bottom: 24px;
-        break-inside: avoid;
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        gap: 20px;
     }
 
-    @media (max-width: 992px) {
-        column-count: 2;
-    }
-
-    @media (max-width: 576px) {
-        column-count: 1;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 22px;
     }
 `;
 
 const LoadMoreButton = styled.button`
     width: 238px;
-    height: 62px;
-    margin-top: 92px;
+    height: 56px;
     font-family: 'Manrope', sans-serif;
     font-weight: 600;
     font-size: 14px;
-    line-height: 1;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    text-align: center;
     color: #ffffff;
     background: #0f172a;
     border: 2px solid #0f172a;
     cursor: pointer;
-    transition: all 0.7s;
-    position: relative;
-    overflow: hidden;
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 0.3s;
-    &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-
-        background: rgba(59, 130, 246, 0.1);
-        transform: translate(-50%, -50%);
-        transition:
-            width 0.7s ease,
-            height 0.7s ease;
-    }
+    transition: all 0.6s ease;
 
     &:hover {
         color: ${theme.colors.dark[900]};
@@ -169,15 +203,15 @@ const LoadMoreButton = styled.button`
         border-color: ${theme.colors.primary[500]};
         transform: translateY(-2px);
         box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.3);
-
-        &::before {
-            width: 300px;
-            height: 300px;
-        }
     }
 
     &:active {
         transform: translateY(0);
-        transition: transform 0.1s ease;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        width: 200px;
+        height: 48px;
+        font-size: 12px;
     }
 `;

@@ -1,19 +1,29 @@
-import { a } from 'framer-motion/client';
 import styled from 'styled-components';
-import { Container, Reveal, SectionTitle, Wrapper } from '../../components';
-import { Icon } from '../../components/Icon';
+import {
+    Container,
+    Icon,
+    Reveal,
+    SectionTitle,
+    Wrapper,
+} from '../../../components';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
+import { mq } from '../../../styles/mediaQueries';
+import { theme } from '../../../styles/theme';
 import { BlogsItem } from './BlogsItem';
 
 export const Blogs = () => {
+    const compactLayout = useMediaQuery(mq.tabletAndDown);
+
     return (
-        <BlogsSection>
+        <BlogsSection id="blogs">
             <Container>
                 <Wrapper display="flex" justify="center">
-                    <ContentWrapper>
+                    <ContentWrapper $compact={compactLayout}>
                         <Reveal>
                             <SectionTitle
                                 subtitle="blogs"
                                 title="Latest News"
+                                align="left"
                             />
                         </Reveal>
                         <Reveal>
@@ -22,7 +32,7 @@ export const Blogs = () => {
                                 <BlogsItem title="Basic Typography Rules For UI Designing" />
                                 <BlogsItem title="Top 10 Graphic Designs Review In 2021" />
 
-                                <ViewAll as={a} href="#">
+                                <ViewAll as="a" href="#">
                                     view all works
                                     <Icon
                                         name="arrowBlogs"
@@ -42,22 +52,41 @@ export const Blogs = () => {
 const BlogsSection = styled.section`
     padding: 120px 0;
     background: #fafafa;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        padding: 80px 0;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        padding: 60px 0;
+    }
 `;
 
-
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<{ $compact: boolean }>`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: ${(p) => (p.$compact ? 'flex-start' : 'center')};
     width: 100%;
     max-width: 1232px;
-    height: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: visible;
+    text-align: ${(p) => (p.$compact ? 'left' : 'center')};
+
+    &::-webkit-scrollbar {
+        height: 0;
+        background: transparent;
+    }
+
+    scrollbar-width: none;
+
+    -ms-overflow-style: none;
 `;
 
 const BlogsGrid = styled.div`
     margin-top: 80px;
     display: flex;
-    align-items: center;
+    justify-content: flex-start;
     gap: 0;
     width: 100%;
 
@@ -67,28 +96,61 @@ const BlogsGrid = styled.div`
 
     & > *:not(:last-child) {
         position: relative;
-        margin-right: 20px;
+        margin-right: 30px;
+        padding-right: 30px;
 
         &::after {
             content: '';
             position: absolute;
-            right: -20px;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             width: 1px;
-            height: 155px;
-            background-color: #9fbfff72;
-            margin-right: 18px;
+            height: 120px;
+            background-color: rgba(59, 130, 246, 0.2);
         }
+    }
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        margin-top: 60px;
+        gap: 0;
+
+        align-items: flex-start;
+
+        & > *:not(:last-child) {
+            margin-right: 25px;
+            padding-right: 25px;
+        }
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        margin-top: 40px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+        justify-content: flex-start;
+
+        & > *:not(:last-child) {
+            margin-right: 0;
+            padding-right: 0;
+
+            &::after {
+                display: none;
+            }
+        }
+
+        overflow-x: visible;
     }
 `;
 
 const ViewAll = styled.button`
-    display: flex;
+    display: inline-flex;
+    align-items: center;
     gap: 12px;
-    width: 178px;
-    height: 38px;
-    margin-left: 60px;
+    width: auto;
+    min-width: 178px;
+
+    margin-left: 40px;
     font-weight: 600;
     font-size: 16px;
     line-height: 235%;
@@ -96,19 +158,16 @@ const ViewAll = styled.button`
     text-transform: uppercase;
     text-align: center;
     color: #3b82f6;
-    background-color: transparent;
-    cursor: pointer;
     border: none;
-    align-items: center;
-    justify-content: center;
     white-space: nowrap;
     position: relative;
+    transition: all 0.9s ease;
 
     &::before,
     &::after {
         content: '';
         position: absolute;
-        transition: all 0.6s ease;
+        transition: all 0.9s ease;
     }
 
     &::before {
@@ -116,7 +175,7 @@ const ViewAll = styled.button`
         left: 0;
         width: 0;
         height: 2px;
-        background-color: #9fbfff72;
+        background-color: #3b82f6;
     }
 
     &::after {
@@ -124,14 +183,13 @@ const ViewAll = styled.button`
         right: 0;
         width: 0;
         height: 2px;
-        background-color: #9fbfff72;
+        background-color: #3b82f6;
     }
 
     &:hover {
-        &::before {
-            width: 100%;
-        }
+        color: #1e40af;
 
+        &::before,
         &::after {
             width: 100%;
         }
@@ -143,5 +201,19 @@ const ViewAll = styled.button`
 
     svg {
         transition: transform 0.3s ease;
+    }
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        margin-top: 3%;
+        margin-left: 0; /* Убираем margin-left на планшетах для центрирования */
+        align-items: center;
+        font-size: 14px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        margin-left: 0;
+        margin-top: 20px;
+        min-width: auto;
+        align-items: center;
     }
 `;

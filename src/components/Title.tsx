@@ -57,4 +57,31 @@ const StyledTitle = styled.h1<TitlePropsType>`
 
     ${(props) => props.minWidth && `min-width: ${props.minWidth};`}
     ${(props) => props.minHeight && `min-height: ${props.minHeight};`}
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        ${(props) =>
+            !props.fontSize &&
+            `
+            font-size: 56px;
+            line-height: 118%;
+        `}
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        ${(props) =>
+            !props.fontSize &&
+            `
+            font-size: 40px;
+            line-height: 120%;
+            letter-spacing: -0.02em;
+        `}
+    }
+
+    @media (max-width: 480px) {
+        ${(props) =>
+            !props.fontSize &&
+            `
+            font-size: 32px;
+        `}
+    }
 `;

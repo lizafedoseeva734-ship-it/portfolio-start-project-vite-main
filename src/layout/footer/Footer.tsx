@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { Container, Wrapper } from '../../components';
+import { media } from '../../styles/mixins';
 import { FooterContent } from './FooterContent';
 
 export const Footer = () => {
     return (
-        <FooterStyled>
+        <FooterStyled id="contact">
             <Container>
                 <div className="small-circle" />
                 <Wrapper display="flex" justify="center">
@@ -23,6 +24,14 @@ const FooterStyled = styled.footer`
     background-color: #ffffff;
     overflow: hidden;
 
+    ${media.tablet`
+        padding: 80px 0;
+    `}
+
+    ${media.mobile`
+        padding: 56px 0 64px;
+    `}
+
     &::before {
         content: '';
         position: absolute;
@@ -40,6 +49,20 @@ const FooterStyled = styled.footer`
         box-shadow: 4px 6px 25px -2px rgba(59, 130, 246, 0.08);
         pointer-events: none;
         z-index: 1;
+
+        ${media.tablet`
+            width: 450px;
+            height: 450px;
+            left: -150px;
+            top: -150px;
+        `}
+
+        ${media.mobile`
+            width: 280px;
+            height: 280px;
+            left: -100px;
+            top: -100px;
+        `}
     }
 
     &::after {
@@ -59,6 +82,20 @@ const FooterStyled = styled.footer`
         box-shadow: 4px 6px 25px -2px rgba(59, 130, 246, 0.1);
         pointer-events: none;
         z-index: 2;
+
+        ${media.tablet`
+            width: 300px;
+            height: 300px;
+            left: -90px;
+            top: -90px;
+        `}
+
+        ${media.mobile`
+            width: 200px;
+            height: 200px;
+            left: -60px;
+            top: -60px;
+        `}
     }
 
     .small-circle {
@@ -77,6 +114,20 @@ const FooterStyled = styled.footer`
         box-shadow: 4px 6px 25px -2px rgba(59, 130, 246, 0.12);
         pointer-events: none;
         z-index: 3;
+
+        ${media.tablet`
+            width: 160px;
+            height: 160px;
+            left: -40px;
+            top: -40px;
+        `}
+
+        ${media.mobile`
+            width: 120px;
+            height: 120px;
+            left: -30px;
+            top: -30px;
+        `}
     }
 `;
 

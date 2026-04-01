@@ -30,6 +30,39 @@ export const media = {
     `,
 };
 
+// Дополнительные миксины для адаптива
+export const responsiveFont = (
+    desktop: number,
+    tablet: number,
+    mobile: number
+) => css`
+    font-size: ${desktop}px;
+
+    ${media.tablet`
+        font-size: ${tablet}px;
+    `}
+
+    ${media.mobile`
+        font-size: ${mobile}px;
+    `}
+`;
+
+export const responsivePadding = (
+    desktop: string,
+    tablet: string,
+    mobile: string
+) => css`
+    padding: ${desktop};
+
+    ${media.tablet`
+        padding: ${tablet};
+    `}
+
+    ${media.mobile`
+        padding: ${mobile};
+    `}
+`;
+
 export const flexCenter = css`
     display: flex;
     align-items: center;

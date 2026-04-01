@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 import { Icon } from './Icon';
@@ -64,6 +63,16 @@ const StyledSectionTitle = styled.div<{ align: string }>`
         `
         align-items: flex-end;
     `}
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        gap: 20px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 16px;
+        text-align: ${(p) => (p.align === 'center' ? 'center' : 'center')};
+        align-items: center;
+    }
 `;
 
 const SubtitleWrapper = styled.div<{ $align: string }>`
@@ -71,13 +80,17 @@ const SubtitleWrapper = styled.div<{ $align: string }>`
     align-items: center;
     gap: 20px;
 
-
     justify-content: ${(p) =>
         p.$align === 'center'
             ? 'center'
             : p.$align === 'right'
               ? 'flex-end'
               : 'flex-start'};
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 12px;
+        justify-content: center;
+    }
 `;
 
 const WaveIcon = styled(Icon)`
@@ -92,6 +105,14 @@ const Subtitle = styled.span<{ $color: string }>`
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: ${(p) => p.$color};
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        font-size: 16px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: 14px;
+    }
 `;
 
 const Title = styled.h2<{ $color: string }>`
@@ -104,10 +125,16 @@ const Title = styled.h2<{ $color: string }>`
     max-width: 570px;
     width: auto;
 
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        font-size: 44px;
+        max-width: 100%;
+    }
+
     @media (max-width: ${theme.breakpoints.mobile}) {
-        font-size: clamp(32px, 8vw, 52px);
+        font-size: 32px;
         line-height: 130%;
         max-width: 100%;
         width: 100%;
+        text-align: center;
     }
 `;

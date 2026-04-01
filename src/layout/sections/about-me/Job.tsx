@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import { Reveal } from '../../../components';
 import { Description } from '../../../components/Description';
-import { media } from '../../../styles/mixins';
 import { theme } from '../../../styles/theme';
 
 export const Job = () => {
     return (
         <JobWrap>
             <Reveal>
-                <Description lineHeight="1.7" maxWidth="530px">
+                <Description lineHeight="1.7">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
                     aperiam, eaque ipsa quae ab illo inventore veritatis et
@@ -16,7 +15,7 @@ export const Job = () => {
                 </Description>
             </Reveal>
             <Reveal>
-                <Description lineHeight="1.7" maxWidth="530px">
+                <Description lineHeight="1.7">
                     Itaque earum rerum hic tenetur a sapiente delectus, ut aut
                     reiciendis voluptatibus maiores alias consequatur aut
                     perferendis doloribus asperiores repellat quia voluptas sit
@@ -36,22 +35,12 @@ const JobWrap = styled.div`
     display: flex;
     flex-direction: column;
     gap: 28px;
-    flex: 1;
-    margin-left: clamp(20px, 2vw, 164px);
 
-    ${media.tablet`
-        margin-left: clamp(40px, 6vw, 100px);
+    @media (max-width: ${theme.breakpoints.mobile}) {
         gap: 24px;
-    `}
-
-    ${media.mobile`
-        margin-left: 0;
-        margin-top: 40px;
         align-items: center;
         text-align: center;
-        max-width: 100%;
-        gap: 20px;
-    `}
+    }
 `;
 
 const LinkWrapper = styled.a`
@@ -59,18 +48,6 @@ const LinkWrapper = styled.a`
     display: inline-block;
     width: fit-content;
     transition: transform 0.3s ease;
-
-    &:hover {
-        transform: translateX(4px);
-    }
-
-    ${media.mobile`
-        align-self: center;
-
-        &:hover {
-            transform: translateY(-2px);
-        }
-    `}
 `;
 
 const JobBtn = styled.button`
@@ -99,7 +76,6 @@ const JobBtn = styled.button`
         left: 50%;
         width: 0;
         height: 0;
-
         background: rgba(59, 130, 246, 0.1);
         transform: translate(-50%, -50%);
         transition:
@@ -125,5 +101,7 @@ const JobBtn = styled.button`
         transition: transform 0.1s ease;
     }
 
-
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        margin-top: 0;
+    }
 `;

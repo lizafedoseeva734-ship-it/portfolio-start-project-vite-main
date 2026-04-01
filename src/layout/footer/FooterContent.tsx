@@ -1,35 +1,31 @@
 import styled, { keyframes } from 'styled-components';
 import { Description, Reveal, TitleH2 } from '../../components';
+import { theme } from '../../styles/theme';
 
 export const FooterContent = () => {
     return (
         <Content>
             <Reveal>
                 <LeftSection>
-                    <TitleH2
+                    <FooterHeadline
                         fontWeight={600}
                         fontSize="90px"
                         lineHeight="115%"
                         letterSpacing="0.04em"
-                        minWidth="733px"
-                        minHeight="335px"
                         margin="0 0 26px 0"
                     >
                         Wanna <br /> be starting something ?
-                    </TitleH2>
-
-                    <Description
+                    </FooterHeadline>
+                    <FooterDescription
                         fontWeight={300}
                         fontSize="22px"
                         lineHeight="225%"
                         letterSpacing="0.02em"
-                        minWidth="549px"
-                        maxHeight="92px"
-                        margin="0 0 90px 0"
+                        margin="0 0 20px 0"
                     >
                         Just feel free to contact if you wanna collaborate with
                         me, or simply have a conversation.
-                    </Description>
+                    </FooterDescription>
 
                     <Socials>
                         <SocialLink href="#">Facebook</SocialLink>
@@ -49,7 +45,6 @@ export const FooterContent = () => {
     );
 };
 
-
 const pulse = keyframes`
     0% {
         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
@@ -62,59 +57,105 @@ const pulse = keyframes`
     }
 `;
 
-const wave = keyframes`
-    0%, 100% {
-        transform: translateY(0);
+const FooterHeadline = styled(TitleH2)`
+    width: 733px;
+    @media (max-width: ${theme.breakpoints.desktop}) {
+        font-size: clamp(36px, 6vw, 72px) !important;
+        line-height: 115% !important;
     }
-    50% {
-        transform: translateY(-3px);
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: 36px !important;
+        width: 100%;
+    }
+`;
+
+const FooterDescription = styled(Description)`
+    width: 549px;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        max-width: 100%;
     }
 `;
 
 const Content = styled.div`
     display: flex;
-    gap: 62px;
     width: 100%;
+    justify-content: space-around;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${theme.breakpoints.tablet}) {
         flex-direction: column;
         align-items: flex-start;
-        gap: 60px;
+        gap: 40px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 28px;
     }
 `;
 
 const LeftSection = styled.div`
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    min-width: min(0, 100%);
     max-width: 500px;
+    width: fit-content;
+    align-items: flex-start;
+    text-align: left;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        max-width: 100%;
+        width: auto;
+    }
 `;
 
 const RightSection = styled.div`
     display: flex;
+    flex: 0 0 auto;
+    flex-shrink: 0;
     align-items: flex-end;
     padding-bottom: 24px;
+    min-width: 0;
+    max-width: 100%;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        padding-bottom: 0;
+        align-items: flex-start;
+        align-self: flex-start;
+    }
 `;
 
 const Email = styled.a`
     font-weight: 500;
-    font-size: 60px;
-    line-height: 183%;
+    font-size: clamp(28px, 4vw, 60px);
+    line-height: 1.25;
     letter-spacing: 0.01em;
     color: #0f172a;
-    border-bottom: 2px solid #0f172a;
-    transition: all 0.9s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    text-decoration-color: #0f172a;
+    border-bottom: none;
+    transition:
+        color 0.6s ease,
+        text-decoration-color 0.6s ease;
+    display: inline-block;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    position: relative;
+    z-index: 1;
 
     &:hover {
         color: #98bffe;
-        border-bottom-color: #98bffe;
-        animation: ${pulse} 1s ease-out;
+        text-decoration-color: #98bffe;
+        animation: ${pulse} 1.5 ease-out;
     }
 
-    @media (max-width: 768px) {
-        font-size: 24px;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: clamp(22px, 6.5vw, 32px);
+        text-underline-offset: 4px;
     }
 `;
 
@@ -122,7 +163,23 @@ const Socials = styled.div`
     display: flex;
     gap: 32px;
     flex-wrap: wrap;
-    margin-top: 8px;
+    margin-top: 60px;
+    width: fit-content;
+    max-width: 100%;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        gap: 32px;
+        margin-top: 30px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        gap: 28px;
+        margin-top: 15px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 24px;
+    }
 `;
 
 const SocialLink = styled.a`
@@ -133,18 +190,17 @@ const SocialLink = styled.a`
     position: relative;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 
     &::before {
         content: '';
         position: absolute;
         bottom: -4px;
-        left: 50%;
+        left: 0;
         width: 0;
         height: 2px;
         background: #98bffe;
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
+        transition: all 0.6s ease;
     }
 
     &:hover {
@@ -157,5 +213,13 @@ const SocialLink = styled.a`
 
     &:active {
         transform: scale(0.95);
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
     }
 `;

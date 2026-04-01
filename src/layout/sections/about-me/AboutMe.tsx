@@ -1,20 +1,20 @@
-// AboutMe.tsx
 import styled from 'styled-components';
+import { Wrapper } from '../../../components';
 import { Container } from '../../../components/Container';
 import { Reveal } from '../../../components/Reveal';
 import { SectionTitle } from '../../../components/SectionTitle';
-import { Wrapper } from '../../../components/Wrapper';
+import { theme } from '../../../styles/theme';
 import { Job } from './Job';
 
 export const AboutMe = () => {
     return (
-        <AboutMeSection>
+        <AboutMeSection id="about">
             <Container>
                 <Wrapper
                     display="grid"
                     gridTemplateColumns="1fr 1fr"
-                    alignItems="flex-start"
-                    gap="40px"
+                    gap="60px"
+                    alignItems="start"
                 >
                     <Reveal>
                         <SectionTitle
@@ -34,4 +34,12 @@ export const AboutMe = () => {
 const AboutMeSection = styled.section`
     padding: 100px 0 160px;
     background-color: #fff;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        padding: 80px 0 100px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        padding: 60px 0 80px;
+    }
 `;

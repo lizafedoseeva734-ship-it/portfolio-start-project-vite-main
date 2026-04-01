@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { theme } from '../../styles/theme';
 
 export const LogoTxt = styled.a`
     position: relative;
@@ -29,7 +30,15 @@ export const LogoTxt = styled.a`
         pointer-events: none;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        font-size: 30px;
+
+        &::before {
+            font-size: 44px;
+        }
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
         font-size: 28px;
 
         &::before {

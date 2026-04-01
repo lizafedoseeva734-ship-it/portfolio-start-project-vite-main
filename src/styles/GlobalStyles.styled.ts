@@ -11,10 +11,13 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     body {
-
     font-family: 'Manrope', 'Inconsolata', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     background-color: #ffffff;
     color: #0f3aaf;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+    min-width: 320px;
     }
 
     a {
@@ -36,5 +39,15 @@ margin:0;
 
 
 }
+html {
+scroll-behavior: smooth;
+}
+
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
 
 `;

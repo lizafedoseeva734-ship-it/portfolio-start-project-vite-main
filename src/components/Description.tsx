@@ -13,12 +13,11 @@ type DescriptionPropsType = {
     minHeight?: string;
     fontFamily?: string;
     margin?: string;
+    className?: string;
+    children?: React.ReactNode;
 };
 
-export const Description = ({
-    children,
-    ...props
-}: DescriptionPropsType & { children: React.ReactNode }) => {
+export const Description = ({ children, ...props }: DescriptionPropsType) => {
     return <StyledDescription {...props}>{children}</StyledDescription>;
 };
 
@@ -35,4 +34,60 @@ const StyledDescription = styled.p<DescriptionPropsType>`
     ${(props) => props.maxHeight && `max-height: ${props.maxHeight};`}
     ${(props) => props.minWidth && `min-width: ${props.minWidth};`}
     ${(props) => props.minHeight && `min-height: ${props.minHeight};`}
+
+    /* Планшеты (769px - 1024px) */
+    @media (max-width: ${theme.breakpoints.tablet}) and (min-width: 769px) {
+        ${(props) => {
+            if (props.minWidth === '549px') {
+                return `
+                    min-width: auto;
+                    max-width: 100%;
+                `;
+            }
+            return '';
+        }}
+        ${(props) => {
+            if (props.fontSize === '22px') {
+                return `
+                    font-size: 20px;
+                `;
+            }
+            return '';
+        }}
+        text-align: left;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Мобильные устройства */
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        ${(props) => {
+            if (props.minWidth === '549px') {
+                return `
+                    min-width: auto;
+                    max-width: 100%;
+                `;
+            }
+            return '';
+        }}
+        ${(props) => {
+            if (props.fontSize === '22px') {
+                return `
+                    font-size: 18px;
+                `;
+            }
+            return '';
+        }}
+        ${(props) => {
+            if (props.maxHeight === '92px') {
+                return `
+                    max-height: none;
+                `;
+            }
+            return '';
+        }}
+        text-align: left;
+        width: 100%;
+    }
+    
 `;

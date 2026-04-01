@@ -1,13 +1,14 @@
-
 import styled from 'styled-components';
 import { Container } from '../../../components/Container';
+import { theme } from '../../../styles/theme';
 import { Reveal } from '../../../components/Reveal';
 import { SectionTitle } from '../../../components/SectionTitle';
 import { Wrapper } from '../../../components/Wrapper';
 import { SkillsBar } from './SkillsBar';
+
 export const Skills = () => {
     return (
-        <SkillsSection>
+        <SkillsSection id="skills">
             <Container>
                 <Wrapper
                     display="grid"
@@ -33,4 +34,12 @@ export const Skills = () => {
 const SkillsSection = styled.section`
     padding: 190px 0;
     background-color: #fafbfc;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        padding: 120px 0;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        padding: 80px 0;
+    }
 `;

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import { theme } from '../../styles/theme';
 
 type MenuOpenProps = {
     onClose: () => void;
@@ -20,37 +21,37 @@ export const MenuOpen = ({ onClose }: MenuOpenProps) => {
                 <nav>
                     <ul>
                         <li>
-                            <a href="/" onClick={onClose}>
+                            <a href="#about" onClick={onClose}>
                                 who am i
                             </a>
                         </li>
                         <li>
-                            <a href="/skills" onClick={onClose}>
+                            <a href="#skills" onClick={onClose}>
                                 my skills
                             </a>
                         </li>
                         <li>
-                            <a href="/portfolio" onClick={onClose}>
+                            <a href="#portfolio" onClick={onClose}>
                                 portfolio
                             </a>
                         </li>
                         <li>
-                            <a href="/testimonials" onClick={onClose}>
+                            <a href="#testimonials" onClick={onClose}>
                                 testimonials
                             </a>
                         </li>
                         <li>
-                            <a href="/awards" onClick={onClose}>
+                            <a href="#awards" onClick={onClose}>
                                 awards
                             </a>
                         </li>
                         <li>
-                            <a href="/blogs" onClick={onClose}>
+                            <a href="#blogs" onClick={onClose}>
                                 blogs
                             </a>
                         </li>
                         <li>
-                            <a href="/contact" onClick={onClose}>
+                            <a href="#contact" onClick={onClose}>
                                 contact me
                             </a>
                         </li>
@@ -118,8 +119,15 @@ const StyledMenu = styled.div`
         }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        width: 88%;
+        max-width: 440px;
+        padding: 44px 28px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
         width: 90%;
+        max-width: none;
         padding: 40px 24px;
 
         a {

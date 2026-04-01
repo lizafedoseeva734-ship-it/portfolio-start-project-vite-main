@@ -1,15 +1,16 @@
-// src/layout/sections/skills/SkillsBar.tsx
+// src/layout/sections/skills/SkillBarComponents.tsx
+
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 
 type SkillBarProps = {
     title: string;
-    percent: number;
+    value: number; // процент заполнения
     delay?: number;
 };
 
-export const SkillBar = ({ title, percent, delay = 0 }: SkillBarProps) => {
+export const SkillBar = ({ title, value, delay = 0 }: SkillBarProps) => {
     return (
         <BarWrapper
             initial={{ opacity: 0, y: 30 }}
@@ -18,13 +19,13 @@ export const SkillBar = ({ title, percent, delay = 0 }: SkillBarProps) => {
             transition={{ duration: 0.6, delay }}
         >
             <Label>
-                <span>{title}</span>
-                <Percent>{percent}%</Percent>
+                <Title>{title}</Title>
             </Label>
+
             <BarBackground>
                 <BarFill
                     initial={{ width: 0 }}
-                    whileInView={{ width: `${percent}%` }}
+                    whileInView={{ width: `${value}%` }}
                     viewport={{ once: true }}
                     transition={{
                         duration: 1.2,
@@ -37,34 +38,39 @@ export const SkillBar = ({ title, percent, delay = 0 }: SkillBarProps) => {
     );
 };
 
+// styles
+
 const BarWrapper = styled(motion.div)`
     width: 100%;
     margin-bottom: 28px;
     display: flex;
     flex-direction: column;
-
     max-width: 533px;
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        max-width: 100%;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        margin-bottom: 22px;
+    }
 `;
 
 const Label = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-
-    span {
-        font-weight: 600;
-        font-size: 16px;
-        color: ${theme.colors.dark[800]};
-        letter-spacing: -0.01em;
-    }
 `;
 
-const Percent = styled.span`
-    font-weight: 500;
-    font-size: 14px;
-    color: ${theme.colors.primary[500]};
-    min-width: 40px;
-    text-align: right;
+const Title = styled.span`
+    font-weight: 600;
+    font-size: 16px;
+    color: ${theme.colors.dark[800]};
+    letter-spacing: -0.01em;
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: 15px;
+    }
 `;
 
 const BarBackground = styled.div`
@@ -72,7 +78,6 @@ const BarBackground = styled.div`
     height: 8px;
     border-radius: 10px;
     background-color: ${theme.colors.gray[200]};
-    position: relative;
     overflow: hidden;
 `;
 
@@ -80,5 +85,4 @@ const BarFill = styled(motion.div)`
     height: 100%;
     border-radius: 10px;
     background: ${theme.gradients.skillBar};
-    position: relative;
 `;

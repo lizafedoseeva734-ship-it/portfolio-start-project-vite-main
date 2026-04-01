@@ -1,25 +1,22 @@
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 
 type WrapperPropsType = {
-
     direction?: string;
     justify?: string;
     align?: string;
     wrap?: string;
     gap?: string;
-
-
     display?: 'flex' | 'grid';
     gridTemplateColumns?: string;
     gridTemplateRows?: string;
     gridGap?: string;
     alignItems?: string;
     justifyItems?: string;
-
-
     width?: string;
     height?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
 };
 
 export const Wrapper = (props: WrapperPropsType) => {
@@ -28,7 +25,6 @@ export const Wrapper = (props: WrapperPropsType) => {
 
 const StyledWrapper = styled.div<WrapperPropsType>`
     display: ${(p) => p.display || 'flex'};
-
 
     ${(p) =>
         p.display !== 'grid' &&
@@ -52,4 +48,21 @@ const StyledWrapper = styled.div<WrapperPropsType>`
 
     width: ${(p) => p.width || '100%'};
     height: ${(p) => p.height || 'auto'};
+
+    @media (max-width: ${theme.breakpoints.tablet}) {
+        ${(p) =>
+            p.display === 'grid' &&
+            `
+            grid-template-columns: 1fr;
+            gap: 30px;
+        `}
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        ${(p) =>
+            p.display === 'grid' &&
+            `
+            gap: 24px;
+        `}
+    }
 `;

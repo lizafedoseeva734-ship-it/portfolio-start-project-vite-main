@@ -1,6 +1,7 @@
-// src/layout/sections/hero/Info.tsx
+// src/components/sections/Hero/Info.tsx
 import styled from 'styled-components';
 import { Description, Icon, Reveal, Title, TitleH2 } from '../../../components';
+import { media } from '../../../styles/mixins';
 import { theme } from '../../../styles/theme';
 
 export const Info = () => {
@@ -29,17 +30,19 @@ export const Info = () => {
             </Reveal>
 
             <Reveal direction="up" delay={0.2}>
-                <Title
-                    margin="32px 0px 24px 0px"
-                    maxWidth="533px"
-                    fontFamily="Manrope"
-                >
-                    Simon John Brand Designer
+                <Title margin="32px 0px 24px 0px" fontFamily="Manrope">
+                    Simon John <br /> Brand Designer
                 </Title>
             </Reveal>
 
             <Reveal direction="up" delay={0.3}>
-                <Description margin="0px 0px 48px 0px" maxWidth="533px">
+                <Description
+                    margin="0px 0px 48px 0px"
+                    fontWeight={300}
+                    fontSize="19px"
+                    lineHeight="2.3"
+                    letterSpacing="0.02em"
+                >
                     Make designs mainly logos, visual identities, apps &
                     websites, social media and magazines.
                 </Description>
@@ -63,27 +66,30 @@ export const Info = () => {
 };
 
 const InfoDiv = styled.div`
-    padding-top: 130px;
     display: flex;
     flex-direction: column;
+    margin: 100px 0 0 0;
 
-    @media (max-width: ${theme.breakpoints.mobile}) {
-        padding-top: 80px;
-        align-items: center;
-        text-align: center;
-    }
+    ${media.tablet`
+        margin: 80px 0 0 0;
+    `}
+
+    ${media.mobile`
+        text-align: left;
+        align-items: flex-start;
+        margin: 96px 0 0 0;
+    `}
 `;
 
 const SmallTitle = styled.div`
-    width: 100%;
-    max-width: 533px;
     display: flex;
     align-items: center;
     gap: 12px;
 
-    @media (max-width: ${theme.breakpoints.mobile}) {
-        justify-content: center;
-    }
+    ${media.tablet`
+        gap: 10px;
+
+    `}
 `;
 
 const ContactButton = styled.a`
@@ -118,7 +124,7 @@ const ContactButton = styled.a`
         align-items: center;
         justify-content: center;
         background: ${theme.colors.dark[900]};
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     &:hover {
@@ -142,4 +148,29 @@ const ContactButton = styled.a`
     &:active {
         transform: translateY(0);
     }
+
+    ${media.tablet`
+        width: 220px;
+        height: 52px;
+        padding: 0 0 0 24px;
+        font-size: 13px;
+
+        .circle {
+            width: 48px;
+            height: 48px;
+        }
+    `}
+
+    ${media.mobile`
+        align-self: flex-start;
+        width: 200px;
+        height: 48px;
+        padding: 0 0 0 18px;
+        font-size: 12px;
+
+        .circle {
+            width: 42px;
+            height: 42px;
+        }
+    `}
 `;
