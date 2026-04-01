@@ -4,18 +4,13 @@ import { defineConfig } from 'vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 export default defineConfig({
-    base: '/portfolio-start-project-vite-main/', // ← ВАЖНО
-
+    base: '/portfolio-start-project-vite-main/', // имя репозитория GitHub
     plugins: [
         react({
             plugins: [
                 [
                     '@swc/plugin-styled-components',
-                    {
-                        displayName: true,
-                        fileName: true,
-                        pure: true,
-                    },
+                    { displayName: true, fileName: true, pure: true },
                 ],
             ],
         }),

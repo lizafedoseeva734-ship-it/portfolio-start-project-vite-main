@@ -3,16 +3,16 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 export default defineConfig({
+    base: '/portfolio-start-project-vite-main/', // ← ВАЖНО
     plugins: [
         react({
-            // Добавляем настройки для SWC
             plugins: [
                 [
                     '@swc/plugin-styled-components',
                     {
-                        displayName: true, // Добавляет имя компонента к классу
-                        fileName: true, // Добавляет имя файла
-                        pure: true, // Помечает шаблоны как чистые для tree-shaking
+                        displayName: true,
+                        fileName: true,
+                        pure: true,
                     },
                 ],
             ],
